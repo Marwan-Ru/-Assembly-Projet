@@ -14,12 +14,17 @@ lennoargs:
 .global _start
 _start:
 	pop %rax # RAX = argc
-	test %rax, %rax # RAX == 0 ?
-	jz noargs
+	cmp $2, %rax
+	jl noargs
 
 noargs:
+	mov $1, %rax # RAX = 1 (sys_write)
+	mov $1, %rdi # RDI = 1 (stdout)
+	mov $msgnoargs, %rsi # RSI = msgnoargs
 	mov lennoargs, %rdx # RDX = lennoargs
-	mov msgnoargs, %rcx # RCX = msgnoargs
-	mov $1, %rbx # RBX = 1 (stdout)
-	mov $4, %rax # RAX = 4 (sys_write)
 	syscall
+
+fin:
+	mov $60, %rax # RAX = 1
+	xor %rdi,%rdi # RDI = 0
+	syscall # appel systeme
