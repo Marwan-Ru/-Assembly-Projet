@@ -1,2 +1,2 @@
-cv1.o
-cv1
+cv*.o
+cv*

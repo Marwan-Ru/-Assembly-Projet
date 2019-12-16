@@ -23,12 +23,12 @@ lenargs2:
 
 .global _start
 _start:
-	pop %rbx #RAX = argc
-	cmp $2, %rbx #Rax == 0 ?
+	pop %rbx # RAX = argc
+	cmp $2, %rbx # RAX < 2 ?
 	jl noargs
-	pop %rbx #RAX = argv[0]
-	pop %rbx #RAX = argv[1]
-	movb (%RBX), %al # PLace le premier octets que pointe RBX dans AL
+	pop %rbx # RAX = argv[0]
+	pop %rbx # RAX = argv[1]
+	movb (%rbx), %al # PLace le premier octets que pointe RBX dans AL
 	xor %r8, %r8	# r8 va nous servir de compteur de voyelles
 
 tant_que:
