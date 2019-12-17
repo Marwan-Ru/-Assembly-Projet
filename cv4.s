@@ -23,17 +23,23 @@ lenargs2:
 
 .global _start
 _start:
-	pop %rbx # RAX = argc
+	pop %rbx # RbX = argc
 	mov %rbx, %rcx # RCX = RBX (argc)
 	cmp $2, %rbx # Rax < 2 ?
 	jl noargs
 	pop %rbx # RAX = argv[0]
 	sub $1, %rcx # RCX--
-	xor %r8, %r8 # r8 va nous servir de compteur de voyelles
+	#On initilaise les compteurs de voyelle 
+	xor %r8, %r8 
+	xor %r9, %r9 
+	xor %r10, %r10 
+	xor %r11, %r11 
+	xor %r12, %r12 
+	xor %r13, %r13 
 
 for:
 	test %rcx, %rcx # RCX == 0 ?
-	jz args
+	jz empile
 	pop %rbx # RAX = argv[1]
 	movb (%rbx), %al # RBX = argv 
 	sub $1, %rcx # RCX--
@@ -75,27 +81,27 @@ est_a:
 	jmp tant_que
 
 est_e:
-	inc %r9 # r8++
+	inc %r9 # r9++
 	movb (%RBX), %al # On déplace l'octet suivant dans al
 	jmp tant_que
 
 est_i:
-	inc %r10 # r8++
+	inc %r10 # r10++
 	movb (%RBX), %al # On déplace l'octet suivant dans al
 	jmp tant_que
 
 est_o:
-	inc %r11 # r8++
+	inc %r11 # r11++
 	movb (%RBX), %al # On déplace l'octet suivant dans al
 	jmp tant_que
 
 est_u:
-	inc %r12 # r8++
+	inc %r12 # r12++
 	movb (%RBX), %al # On déplace l'octet suivant dans al
 	jmp tant_que
 
 est_y:
-	inc %r13 # r8++
+	inc %r13 # r13++
 	movb (%RBX), %al # On déplace l'octet suivant dans al
 	jmp tant_que
 
@@ -109,20 +115,35 @@ noargs:
 	call printC
 	jmp fin
 
+empile: #On va empiler la valeur pour chaque lettre 
+	push %r13
+	push %r12
+	push %r11
+	push %r10
+	push %r9
+	push %r8
+	mov $7, %rcx #rcx = 7 Pour la boucle for n°2
+
+refor:
+	test %rcx, %rcx # RCX == 0 ?
+	jz fin
+	sub $1, %rcx # RCX--
+
 args:
 	mov $1, %rax # RAX = 1 (sys_write)
 	mov $1, %rdi # RDI = 1 (stdout)
-	mov $msgargs1, %rsi # RSI = msgnoargs
-	mov lenargs1, %rdx # RDX = lennoargs
+	mov $msgargs1, %rsi # RSI = msgarg1
+	mov lenargs1, %rdx # RDX = lennarg2
 	syscall
-	mov %r8, %rax # RAX = R8
+	pop %rax # RAX = R8
 	call print
 	mov $1, %rax # RAX = 1 (sys_write)
-	mov $msgargs2, %rsi # RSI = msgnoargs
-	mov lenargs2, %rdx # RDX = lennoargs
+	mov $msgargs2, %rsi # RSI = msgarg2
+	mov lenargs2, %rdx # RDX = lennarg2
 	syscall
 	mov $10, %rdx # RDX = 10
 	call printC
+	jmp refor
 
 fin:
 	mov $60, %rax # RAX = 1
