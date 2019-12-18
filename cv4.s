@@ -152,7 +152,7 @@ empile: #On va empiler la valeur pour chaque lettre
 	push %r9
 	push $msga
 	push %r8
-	mov $6, %r14 #r14 = 7 Pour la boucle for n°2
+	mov $6, %r14 #r14 = 6 Pour la boucle for n°2
 
 refor:
 	test %r14, %r14 # R14 == 0 ?
