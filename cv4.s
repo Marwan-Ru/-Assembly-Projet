@@ -10,14 +10,39 @@ lennoargs:
 	.quad 29
 
 msgargs1:
-	.string "Il y a "
+	.string " occurence(s) de"
 lenargs1:
-	.quad 7
+	.quad 16
 
-msgargs2:
-	.string " voyelles"
-lenargs2:
-	.quad 9
+msga:
+	.string " a"
+lena:
+	.quad 2
+
+msge:
+	.string " e"
+lene:
+	.quad 2
+
+msgi:
+	.string " i"
+leni:
+	.quad 2
+
+msgo:
+	.string " o"
+leno:
+	.quad 2
+
+msgu:
+	.string " u"
+lenu:
+	.quad 2
+
+msgy:
+	.string " y"
+leny:
+	.quad 2
 	
 .text # debut du segment de code
 
@@ -116,30 +141,36 @@ noargs:
 	jmp fin
 
 empile: #On va empiler la valeur pour chaque lettre 
+	push $msgy
 	push %r13
+	push $msgu
 	push %r12
+	push $msgo
 	push %r11
+	push $msgi
 	push %r10
+	push $msge
 	push %r9
+	push $msga
 	push %r8
-	mov $7, %rcx #rcx = 7 Pour la boucle for n°2
+	mov $6, %r14 #r14 = 7 Pour la boucle for n°2
 
 refor:
-	test %rcx, %rcx # RCX == 0 ?
+	test %r14, %r14 # R14 == 0 ?
 	jz fin
-	sub $1, %rcx # RCX--
+	sub $1, %r14 # R14  --
 
 args:
+	pop %rax # RAX = R8
+	call print
 	mov $1, %rax # RAX = 1 (sys_write)
 	mov $1, %rdi # RDI = 1 (stdout)
 	mov $msgargs1, %rsi # RSI = msgarg1
 	mov lenargs1, %rdx # RDX = lennarg2
 	syscall
-	pop %rax # RAX = R8
-	call print
 	mov $1, %rax # RAX = 1 (sys_write)
-	mov $msgargs2, %rsi # RSI = msgarg2
-	mov lenargs2, %rdx # RDX = lennarg2
+	pop %rsi # On met la bonne lettre dans rsi
+	mov $2, %rdx # RDX = 2
 	syscall
 	mov $10, %rdx # RDX = 10
 	call printC
