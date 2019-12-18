@@ -48,8 +48,7 @@ leny:
 
 .global _start
 _start:
-	pop %rbx # RbX = argc
-	mov %rbx, %rcx # RCX = RBX (argc)
+	pop %rcx # RCX = argc
 	cmp $2, %rbx # Rax < 2 ?
 	jl noargs
 	pop %rbx # RAX = argv[0]
