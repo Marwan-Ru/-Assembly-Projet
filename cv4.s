@@ -165,7 +165,7 @@ args:
 	mov $1, %rax # RAX = 1 (sys_write)
 	mov $1, %rdi # RDI = 1 (stdout)
 	mov $msgargs1, %rsi # RSI = msgarg1
-	mov lenargs1, %rdx # RDX = lennarg2
+	mov lenargs1, %rdx # RDX = lennarg1
 	syscall
 	mov $1, %rax # RAX = 1 (sys_write)
 	pop %rsi # On met la bonne lettre dans rsi
