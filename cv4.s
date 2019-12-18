@@ -49,9 +49,9 @@ leny:
 .global _start
 _start:
 	pop %rcx # RCX = argc
-	cmp $2, %rbx # Rax < 2 ?
+	cmp $2, %rcx # RCX < 2 ?
 	jl noargs
-	pop %rbx # RAX = argv[0]
+	pop %rbx # RBX = argv[0]
 	sub $1, %rcx # RCX--
 	#On initilaise les compteurs de voyelle 
 	xor %r8, %r8 
@@ -64,8 +64,8 @@ _start:
 for:
 	test %rcx, %rcx # RCX == 0 ?
 	jz empile
-	pop %rbx # RAX = argv[1]
-	movb (%rbx), %al # RBX = argv 
+	pop %rbx # RBX = argv[1]
+	movb (%rbx), %al # AL = argv 
 	sub $1, %rcx # RCX--
 
 tant_que:
